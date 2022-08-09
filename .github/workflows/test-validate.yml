@@ -1,0 +1,22 @@
+name: Tests validate
+
+on: [pull-request]
+
+jobs: 
+  PullRequest:
+    runs-on: ubunto-latest
+    steps: 
+      - name: Checkout respository code
+        uses: actions/checkout@v3
+      - name: Create a temporary envfile
+        uses: SpicyPizza/create-envfile@v1
+        with: 
+          envkey_POSTGRES_USER: "postgres"
+          envkey_POSTGRES_PASSWORD: "postgres"
+          envkey_POSTGRES_DB: "students__tests"
+          envkey_DATABASE_URL: "postgresql://postgres:postgres@db_ci_cd:5432/students"
+          file_name: .env.test
+      - name: Run tests
+        run: docker-compose -f docker-compose-tests.yml  run node_app npm run test
+      - name: Build
+        run: npm i && npm run build
