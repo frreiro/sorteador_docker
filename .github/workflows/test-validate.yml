@@ -1,6 +1,6 @@
 name: Tests validate
 
-on: [pull-request]
+on: [pull_request]
 
 jobs: 
   PullRequest:
